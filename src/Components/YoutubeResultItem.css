@@ -1,0 +1,18 @@
+.wave-bar {
+    display: inline-block;
+    width: 2px;
+    height: 100%;
+    margin-right: 2px;
+    background-color: currentColor;
+    transform-origin: bottom center;
+  }
+  .animate-wave {
+    animation: wave 1s ease infinite;
+  }
+  @keyframes wave {
+    0%, 100% { transform: scaleY(0.3); }
+    50% { transform: scaleY(1); }
+  }
+.color-secondary{
+  background-color: var(--color-secondary);
+}
