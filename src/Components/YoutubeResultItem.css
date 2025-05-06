@@ -5,6 +5,7 @@
     margin-right: 2px;
     background-color: currentColor;
     transform-origin: bottom center;
+    position:relative;
   }
   .animate-wave {
     animation: wave 1s ease infinite;
@@ -15,4 +16,36 @@
   }
 .color-secondary{
   background-color: var(--color-secondary);
+}
+
+
+@keyframes buffering {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+
+}
+
+.animate-buffering {
+  animation: buffering 1s infinite ease-in-out;
+}
+
+.wave-error {
+  background-color: red !important;
+  opacity: 1 !important;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.75rem;
+  white-space: nowrap;         
+  overflow: hidden;            
+  text-overflow: ellipsis;     
+  max-width: 100%;             
+  display: block; 
+}
+.youtube-preview {
+  position: absolute;  
+  width: 0;           
+  height: 0;           
+  visibility: hidden; 
 }

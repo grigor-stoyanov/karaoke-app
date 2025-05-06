@@ -1,4 +1,4 @@
-import SongRequests from "../data/song_data.json";
+import SongRequests from "../_data/song_data.json";
 
 export default function SongRequestBlock({  }) {
     const requests = SongRequests;
