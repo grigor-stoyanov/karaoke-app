@@ -10,7 +10,8 @@
     --color-danger: red;
   }
   
-  [data-theme="dark"] {
+  @media (prefers-color-scheme: dark) { 
+    :root {
     --color-bg: #121212;
     --color-text: #f1f1f1;
     --color-primary: #bb86fc;
@@ -21,4 +22,4 @@
     --color-muted: #1e1e1e;
     --color-danger: red;
   }
-  
+}
