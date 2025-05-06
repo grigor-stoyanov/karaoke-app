@@ -3,6 +3,7 @@ import Tippy from '@tippyjs/react';
 import YouTube from 'react-youtube';
 import './YoutubeResultItem.css';
 import 'tippy.js/dist/tippy.css';
+import { ArrowTopRightOnSquareIcon, DocumentArrowUpIcon } from '@heroicons/react/24/solid';
 
 
 
@@ -11,6 +12,7 @@ export default function YoutubeResultItem({ video, activeVideoId, setActiveVideo
   const [isBuffering, setIsBuffering] = useState(false);
   const [playbackError, setPlaybackError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [isModalOpen, setModalOpen] = useState(false);
 
   const opts = {
     height: '0',
@@ -26,7 +28,9 @@ export default function YoutubeResultItem({ video, activeVideoId, setActiveVideo
       rel: 0
     },
   };
-
+  const handleThumbnailClick = () =>{
+    setModalOpen(prev=>(!prev));
+  }
   const handlePlayPreview = (videoId) => {
     setActiveVideoId(prev => (prev === videoId ? null : videoId));
   };
@@ -64,14 +68,38 @@ export default function YoutubeResultItem({ video, activeVideoId, setActiveVideo
   
 
   return (
-    <li className="flex items-center justify-items-center align-items-center gap-4 p-3 hover:bg-gray-100 rounded-lg transition-colors">
+    <li className="flex items-center justify-items-center align-items-center gap-4 w-full p-1 hover:bg-gray-100 rounded-lg transition-colors">
       {/* Thumbnail (using smallest available) */}
       <img
         src={video.snippet.thumbnails.default.url}
         alt={video.snippet.title}
-        className="w-16 h-12 object-cover rounded"
+        className="w-16 h-12 object-cover rounded cursor-pointer"
+        onClick={handleThumbnailClick}
       />
+       {/* Modal */}
+       {isModalOpen && (
+        <div className="fixed inset-0 bg-black/85  flex justify-center items-center z-50" onClick={handleThumbnailClick}> 
+          <div className="relative bg-white p-4 rounded">
+            {/* Image inside Modal */}
+            <img
+              src={video.snippet.thumbnails.high.url}
+              alt={video.snippet.title}
+              className="w-96 h-auto rounded"
+            />
 
+            {/* External Link Icon */}
+        
+            <a
+              href={`https://www.youtube.com/watch?v=${video.id.videoId}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="absolute bottom-4 right-4 text-2xl text-blue-500 h-16 w-16"
+            >
+              <ArrowTopRightOnSquareIcon/>
+            </a>
+          </div>
+        </div>
+      )}
       {/* Video Info */}
       <div className="flex flex-col flex-grow min-w-0">
       <Tippy content={video.snippet.title} zIndex={9999} delay={[300, 0]} placement='top' interactive={true}>

@@ -93,7 +93,7 @@ export default function SongSearchPage() {
     [query])
 
   return (
-    <div className="flex flex-col items-center justify-between p-4 border-b">
+    <div className="flex flex-col items-center justify-between">
       <h1 className="text-2xl font-bold mb-4">Karaoke++</h1>
       <form action="" className='flex flex-row h-10 gap-1' onSubmit={(e)=>submitHandler(e,inputRef.current.value)}>
         <input
@@ -108,16 +108,15 @@ export default function SongSearchPage() {
           <MusicalNoteIcon className="h-5 w-5  " />
         </button>
       </form>
-      <ul className='w-[85%] m-4 p-2 list-none flex-col justify-items-center'>
-        {loading && <span class="loader"></span>}
+      <ul className='w-full flex m-1 p-1 list-none place-items-center flex-col justify-items-center'>
+        {loading && <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>}
         {results && results.length === 0 && !loading && <li>No results</li>}
         {results && results.map((song) => (
          <YoutubeResultItem activeVideoId={activeVideoId} setActiveVideoId={setActiveVideoId} setQueue={setQueue} key={song.id.videoId} video={song}/>
       ))}
       </ul>
-
-
-      <h2 className="text-xl mt-6 font-semibold">Queue</h2>
+      <h2 className="text-xl mt-6 font-semibold ">Queue</h2>
+      <hr className="w-full"></hr>
       <ol className="list-decimal pl-4">
         {queue.map((song, i) => (
           <li key={i}>{song}</li>
@@ -125,7 +124,10 @@ export default function SongSearchPage() {
       </ol>
 
      <SongRequestBlock/>
+      
 
+     <h3 className="text-xl mt-6 font-semibold">My Requests</h3>
+     <hr className="w-full"></hr>
       {/* <button
         onClick={() => setAdminMode(!adminMode)}
         className="mt-4 px-4 py-2 rounded"
