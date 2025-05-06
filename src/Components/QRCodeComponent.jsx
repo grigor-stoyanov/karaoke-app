@@ -15,7 +15,7 @@ export default function QRCodeComponent() {
   };
     return (
       <div className="mt-6">
-      <p className="pointer-events-none"> Scan QR to access:</p>
+      <p id="share" className="pointer-events-none"> Scan QR to access:</p>
       <QRCodeCanvas ref={qrRef} onClick={()=>setModalOpen(true)} value="https://grigor-stoyanov.github.io/karaoke-app/" />
       {modalOpen && <ModalElement source={getQRDataUrl()} print={true} link={''} alt={''} setModalOpen={setModalOpen}/>}
     </div>
