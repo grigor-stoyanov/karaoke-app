@@ -1,19 +1,29 @@
 // src/hooks/useSyncQueue.js
 import { useEffect } from 'react';
-import { onSnapshot, collection } from 'firebase/firestore';
+import { collection, onSnapshot } from 'firebase/firestore';
 import { useDispatch } from 'react-redux';
-import { setRequests } from '../store/queueSlice';
-import { db } from '../firebase';
+import { setRequests } from '../_store/queueSlice';
+import { db } from '../_store/firebase'; // Import the db instance
 
 export function useSyncQueue() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const unsub = onSnapshot(collection(db, 'queue'), snapshot => {
-      const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      dispatch(setRequests(data));
-    });
+    const queueRef = collection(db, 'queue');
+    
+    const unsubscribe = onSnapshot(queueRef, 
+      (snapshot) => {
+        const requests = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        dispatch(setRequests(requests));
+      },
+      (error) => {
+        console.error("Error listening to queue:", error);
+      }
+    );
 
-    return () => unsub(); 
+    return () => unsubscribe();
   }, [dispatch]);
 }

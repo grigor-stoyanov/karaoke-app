@@ -1,7 +1,10 @@
 import { useRef, useEffect, useCallback, useState } from 'react'
 import { MusicalNoteIcon } from '@heroicons/react/24/outline';
 import debounce from 'lodash/debounce';
-import YoutubeData from '../_data/youtube_data.json'
+import YoutubeData from '../_data/youtube_data.json'    
+import { useDispatch } from 'react-redux';
+import { removeRequest } from '../_store/queueSlice';
+import { addRequestToFirestore } from '../_store/queueThunks';
 
 
 const API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY;
@@ -10,6 +13,7 @@ const SEARCH_DELAY = 3000;
 export default function SearchComponent({ setRequests, query, setQuery, setResults, setLoading }) {
     const [inputValue, setInputValue] = useState('');
     const isFirstRender = useRef(true);
+    const dispatch = useDispatch();
     const inputRef = useRef();
     const handleSearch = (e) => {
         const value = e.target.value;
@@ -27,10 +31,26 @@ export default function SearchComponent({ setRequests, query, setQuery, setResul
 
     const submitHandler = (e, value) => {
         e.preventDefault();
-        setRequests((prev) => {
+        let request = {
+            "song": value,
+            "Order": null,
+            "Status": "Pending",
+            "Requestser": null,
+            "Duration": null
+        }
+        if(!inputValue) return;
+        setRequests(async (prev) => {
             const exists = prev.some((req) => req === value);
-            return exists ? prev : [...prev, value];
+            if (exists) return prev;
+            try {
+                await dispatch(addRequestToFirestore(request)).unwrap();
+                return [prev,value]
+              } catch (error) {
+                dispatch(removeRequest(request.id));
+                return prev;
+              }
         })
+       
     }
 
     useEffect(() => {
