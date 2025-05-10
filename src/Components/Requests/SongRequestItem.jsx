@@ -1,6 +1,8 @@
 import { XMarkIcon } from '@heroicons/react/24/solid';
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
 
-export default function SongRequestItem({ song, setRequests }) {
+export default function SongRequestItem({ song,id, removeRequests }) {
   status = "Pending"
 
   const statusStyles = {
@@ -10,14 +12,15 @@ export default function SongRequestItem({ song, setRequests }) {
   };
   const onCancel = (e,song) => {
     e.preventDefault();
-    setRequests((prev)=>{
-        return prev.filter(ele=>ele!==song);
-    })
+    removeRequests(id);
   }
 
   return (
     <li className="flex justify-between items-center py-2 border-b border-gray-200">
-      <span className="truncate w-2/3 font-medium pointer-events-none">{song}</span>
+      <Tippy content={song} zIndex={9999} delay={[300, 0]} placement='top' interactive={true}>
+        <span className="truncate w-2/3 font-medium pointer-events-none">{song}</span>
+      </Tippy>
+      {/* Status */}
       <span className={`text-sm ${statusStyles[status] || 'text-gray-400'} border rounded p-1 pointer-events-none`}>
         {status}
       </span>

@@ -1,5 +1,5 @@
 import { QRCodeCanvas } from 'qrcode.react';
-import ModalElement from './Util/ModalElement';
+import ModalElement from './ModalElement';
 import { useRef, useState } from 'react';
 
 

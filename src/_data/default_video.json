@@ -1,0 +1,24 @@
+{
+    "kind": "",
+    "etag": "",
+    "id": {
+        "kind": "",
+        "videoId": ""
+    },
+    "snippet": {
+        "title": "",
+        "thumbnails": {
+            "default": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_play_button_icon_%282013–2017%29.svg",
+                "width": 120,
+                "height": 90
+            },
+            "high": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_play_button_icon_%282013–2017%29.svg",
+                "width": 480,
+                "height": 360
+            }
+        },
+        "channelTitle": ""
+    }
+}
