@@ -7,6 +7,6 @@ export default defineConfig({
   build: {
     outDir: 'build', 
   },
-  base:"/karaoke-app/",
+  base:"/",
   plugins: [react(),tailwindcss()],
 })
