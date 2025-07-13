@@ -1,0 +1,45 @@
+
+services:
+  mongodb:
+    image: mongo:6
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+  backend:
+    build: 
+      context: ./
+      dockerfile: Dockerfile-backend
+    container_name: backend
+    command: ["node", "server.js"]
+    environment:
+      MONGO_URI: "mongodb://root:password@mongodb:27017"
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+
+  frontend:
+    build:
+      context: ./
+      dockerfile: Dockerfile-frontend
+    container_name: frontend
+    volumes:
+    - ./frontend:/app
+    - /app/node_modules
+    - ./frontend/dist:/usr/share/nginx/html:ro
+    command: ["nginx", "-g", "daemon off;"]
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  mongodb_data:
